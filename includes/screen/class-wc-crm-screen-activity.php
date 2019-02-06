@@ -166,8 +166,8 @@ class WC_CRM_Screen_Activity
         $log_id = $wpdb->insert_id;
 
         foreach ($recipients as $r) {
-            $message = self::replace_email_vars($message, $r);
-            $mailer->send($r, stripslashes($subject), stripslashes($message));
+            $customer_message = self::replace_email_vars($message, $r);
+            $mailer->send($r, stripslashes($subject), stripslashes($customer_message));
             $result = $wpdb->get_results("SELECT c_id, user_id FROM {$wpdb->prefix}wc_crm_customer_list WHERE email = '{$r}' LIMIT 1");
             if ($result) {
                 $customer = $result[0];

@@ -171,7 +171,7 @@ if (!class_exists('WC_CRM_Screen_Customers_List')) :
 
             foreach ($options['user_roles'] as $value) {
                 if (!empty($user_role_filter)) $user_role_filter .= ' OR ';
-                $user_role_filter .= "customer.capabilities LIKE '%{$value}%'";
+                $user_role_filter .= "usm6.meta_value LIKE '%{$value}%'";
             }
 
             $user_role_filter = apply_filters('wc_crm_customers_list_user_role_filter', $user_role_filter);
@@ -531,6 +531,7 @@ if (!class_exists('WC_CRM_Screen_Customers_List')) :
                 LEFT JOIN {$wpdb->usermeta} usm4 ON customer.user_id = usm4.user_id AND usm4.meta_key = 'date_of_birth'
                 LEFT JOIN {$wpdb->users} a_us ON agent.user_id = a_us.ID
                 LEFT JOIN {$wpdb->usermeta} usm5 ON customer.user_id = usm5.user_id AND usm5.meta_key = 'billing_phone'
+                LEFT JOIN {$wpdb->usermeta} usm6 ON customer.user_id = usm6.user_id AND usm6.meta_key = 'wp_capabilities'
 	    		{$join}
 	    		{$inner}
     			WHERE 1=1

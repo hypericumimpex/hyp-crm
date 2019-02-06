@@ -31,13 +31,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</div>
 	<div class="col">
 		<h3><?php _e( 'Customer Fields', 'wc_crm' ); ?></h3>
-		<p><?php _e( 'Managing customers can sometimes be done by the customer themselves. For example, updating their records or adding additional information to their customer account. Our new customer fields feature allows you to enable or disable fields from the customers profile, to be shown to the customer on the frontend My Account page under the Account Details tab.', 'wc_crm' ); ?></p>
+		<p><?php _e( 'Managing customers can sometimes be done by the customer themselves. For example, updating their records or adding additional information to their customer account. Our new customer fields feature allows you to enable or disable fields from the customers profile, to be shown to the customer on the frontend My Account page under the Account Details tab.', 'wc_crm' ); ?></p>
 	</div>
 </div>
 <div class="feature-section two-col">
 	<div class="col">
 		<h3><?php _e( 'Pinned Customers', 'wc_crm' ); ?></h3>
-		<p><?php _e( 'Customers come and go and sometimes their importance varies between time to time. With the ability to pin customers, you can now quickly pin a customer and then filter all pinned customers instantly from the customers page. This can be done simply by clicking the pin icon.', 'wc_crm' ); ?></p>
+		<p><?php _e( 'Customers come and go and sometimes their importance varies between time to time. With the ability to pin customers, you can now quickly pin a customer and then filter all pinned customers instantly from the customers page. This can be done simply by clicking the pin icon.', 'wc_crm' ); ?></p>
 	</div>
 	<div class="col">
 		<h3><?php _e( 'Filters', 'wc_crm' ); ?></h3>

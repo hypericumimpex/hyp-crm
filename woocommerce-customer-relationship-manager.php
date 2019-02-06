@@ -3,7 +3,7 @@
  * Plugin Name: HYP CRM
  * Plugin URI: https://github.com/hypericumimpex/hyp-crm/
  * Description: Permite o gestionare generală a clienților și a conturilor aferente, precum și gestionarea comunicării dintre magazin și aceștia.
- * Version: 3.5.16
+ * Version: 3.5.18
  * Author: Hypericum
  * Author URI: https://github.com/hypericumimpex/
  * Tested up to: 5.0.2

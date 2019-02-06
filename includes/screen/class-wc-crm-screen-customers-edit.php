@@ -207,10 +207,10 @@ if (!class_exists('WC_CRM_Screen_Customers_Edit')) :
                 update_user_meta($the_customer->user_id, 'preferred_payment_method', $_POST['_payment_method']);
                 update_user_meta($the_customer->user_id, 'payment_method', $_POST['_payment_method']);
 
-                $user_agent = wc_crm_get_customer(get_current_user_id(), 'user_id');
-                if($user_agent->c_id){
-                    update_user_meta($the_customer->user_id, 'customer_agent', $user_agent->c_id);
-                }
+//                $user_agent = wc_crm_get_customer(get_current_user_id(), 'user_id');
+//                if($user_agent->c_id){
+//                    update_user_meta($the_customer->user_id, 'customer_agent', $user_agent->c_id);
+//                }
 
                 $customer_watching = isset($_POST['customer_watching']) ? true : false;
                 update_user_meta($the_customer->user_id, 'customer_watching', $customer_watching);
