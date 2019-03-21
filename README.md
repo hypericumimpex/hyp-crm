@@ -1,2 +1,0 @@
-# hyp-crm
-Hypericum CRM

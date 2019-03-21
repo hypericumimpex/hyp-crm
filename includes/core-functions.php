@@ -7,6 +7,7 @@
  * @since    1.0
  */
 
+use DrewM\MailChimp\MailChimpAPI;
 
 /**
  * Gets the data about logs.
@@ -55,16 +56,24 @@ function woocommerce_crm_get_logs_data()
  */
 function woocommerce_crm_get_members()
 {
-    if (!$retval = get_transient('woocommerce_crm_mailchimp_members')) {
-        $mc_api = new MCAPI_Wc_Crm(get_option('wc_crm_mailchimp_api_key')); // this assumes Subscribe to newsletter extension is enabled
-        $retval = $mc_api->listMembers(get_option('wc_crm_mailchimp_list', false)); // this assumes Subscribe to newsletter extension is enabled
-        set_transient('woocommerce_crm_mailchimp_members', $retval, 60 * 60 * 1);
+    $retval = get_transient('woocommerce_crm_mailchimp_members');
+    $members = array();
+    if (!$retval) {
+        $mc_api = wc_crm_mailchimp_init(get_option('wc_crm_mailchimp_api_key'));
+
+        if(!$mc_api) return $members;
+
+        $list_id = get_option('wc_crm_mailchimp_list', '');
+        $retval = $mc_api->get("lists/$list_id/members");
+
+        if($mc_api->success()){
+            set_transient('woocommerce_crm_mailchimp_members', $retval, 60 * 60 * 1);
+        }
     }
 
-    $members = array();
-    if (!empty($retval['data'])) {
-        foreach ($retval['data'] as $item) {
-            array_push($members, $item['email']);
+    if (!empty($retval['members'])) {
+        foreach ($retval['members'] as $item) {
+            array_push($members, $item['email_address']);
         }
     }
     return $members;
@@ -138,17 +147,20 @@ function woocommerce_crm_get_mailchimp_lists($api_key)
     $mailchimp_lists = array();
     if (!$mailchimp_lists = get_transient('woocommerce_crm_mailchimp_lists')) {
 
-        $mailchimp = new MCAPI_Wc_Crm($api_key);
-        $retval = $mailchimp->lists();
-        if ($mailchimp->errorCode) {
+        $mailchimp = wc_crm_mailchimp_init($api_key);
+        if(!$mailchimp){
+            return false;
+        }
+        $retval = $mailchimp->get('lists');
+        if (!$mailchimp->success()) {
 
             echo '<div class="error"><p>' . sprintf(__('Unable to load lists() from MailChimp: (%s) %s', 'wc_crm'), $mailchimp->errorCode, $mailchimp->errorMessage) . '</p></div>';
 
             return false;
 
         } else {
-            foreach ($retval->lists as $list){
-                $mailchimp_lists[$list->id] = $list->name;
+            foreach ($retval['lists'] as $list){
+                $mailchimp_lists[$list['id']] = $list['name'];
             }
 
             if (count($mailchimp_lists))
@@ -698,9 +710,10 @@ function wcrm_customer_bought_products($customer_email, $user_id)
         return array();
     }
 
-    $sql = $wpdb->prepare("SELECT itemmeta.meta_value as ID, COUNT( itemmeta.meta_value ) as items_count, SUM(line_total.meta_value) as line_total
+    $sql = $wpdb->prepare("SELECT itemmeta.meta_value as ID, line_qty.meta_value as items_count, SUM(line_total.meta_value) as line_total
 			FROM {$wpdb->prefix}woocommerce_order_items as order_items
 			LEFT JOIN {$wpdb->prefix}woocommerce_order_itemmeta AS itemmeta ON ( order_items.order_item_id = itemmeta.order_item_id  AND itemmeta.meta_key = '_product_id')
+			LEFT JOIN {$wpdb->prefix}woocommerce_order_itemmeta AS line_qty ON ( order_items.order_item_id = line_qty.order_item_id  AND line_qty.meta_key = '_qty')
 			LEFT JOIN {$wpdb->prefix}woocommerce_order_itemmeta AS line_total ON ( order_items.order_item_id = line_total.order_item_id AND line_total.meta_key = '_line_total')
 			LEFT JOIN {$wpdb->postmeta} AS e_postmeta ON ( order_items.order_id = e_postmeta.post_id AND e_postmeta.meta_key = '_billing_email')
 			LEFT JOIN {$wpdb->postmeta} AS c_postmeta ON ( order_items.order_id = c_postmeta.post_id AND c_postmeta.meta_key = '_customer_user')
@@ -723,8 +736,6 @@ function wcrm_customer_bought_products($customer_email, $user_id)
 			", $user_id
     );
 
-    #echo '<textarea style="width: 100%; height: 200px;">'.$sql.'</textarea>'; die;
-    #var_dump($wpdb->get_results($sql));
     return $wpdb->get_results($sql);
 }
 
@@ -800,4 +811,15 @@ function get_acf_fields_array()
         $acf_options["acf_" . $field->post_excerpt] = $field->post_title;
     }
     return $acf_options;
+}
+
+function wc_crm_mailchimp_init($api_key){
+    $instance = null;
+    try{
+        $instance = new MailChimpAPI($api_key);
+    }catch (Exception $e ){
+        $instance = null;
+    }
+
+    return $instance;
 }

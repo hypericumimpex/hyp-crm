@@ -61,6 +61,11 @@ class AEBaseApi
 		foreach ($products as $file) {
 			$plugin_slug = basename($file, '.php');
 			$code = isset($purchase_codes[$plugin_slug]) ? $purchase_codes[$plugin_slug] : '';
+
+			if(empty($code)){
+                continue;
+            }
+
 			$url  = 'http://actualityextensions.com/updates/server/?action=get_metadata&slug=' . $plugin_slug . '&purchase_code=' . $code;
 			PucFactory::buildUpdateChecker( $url, $file , $plugin_slug );
 		}

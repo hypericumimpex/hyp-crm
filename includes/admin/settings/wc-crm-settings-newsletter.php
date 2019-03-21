@@ -39,17 +39,17 @@ class WC_Crm_Settings_Newsletter extends WC_Settings_Page {
 	 */
 	public function get_settings() {
 		global $woocommerce;
-		$api_key = get_option( 'wc_crm_mailchimp_api_key' ) ? get_option( 'wc_crm_mailchimp_api_key' ) : get_option( 'woocommerce_mailchimp_api_key', '' );
+		$api_key = get_option( 'wc_crm_mailchimp_api_key', '' );
+        $mailchimp_lists = array();
+        $mailchimp_list = get_option( 'wc_crm_mailchimp_list', '' );
 
-			if ( $api_key ) {
-				$mailchimp_lists = woocommerce_crm_get_mailchimp_lists( $api_key );
-				$mailchimp_list = get_option( 'wc_crm_mailchimp_list' ) ? get_option( 'wc_crm_mailchimp_list' ) : get_option( 'woocommerce_mailchimp_list', '' );
-			} else {
-				$mailchimp_lists = array();
-				$mailchimp_list = '';
-			}
-			if( !is_array($mailchimp_lists))
-				$mailchimp_lists = array();
+        if ( !empty($api_key) ) {
+            $mailchimp_lists = woocommerce_crm_get_mailchimp_lists( $api_key );
+        }
+
+        if( !is_array($mailchimp_lists))
+            $mailchimp_lists = array();
+
 		return apply_filters( 'woocommerce_customer_relationship_newsletter_settings_fields', array(
 
 			array('name' => __( 'MailChimp Integration', 'wc_crm' ), 'type' => 'title', 'desc' => '', 'id' => 'customer_relationship_mailchimp'),

@@ -372,13 +372,18 @@ class WC_CRM_Table_Customers extends WP_List_Table
 
     function column_order_value($item)
     {
-        global $wpdb,$the_customer;
-
+        global $wpdb;
         $order_statuses = get_option('wc_crm_total_value', array());
-        $sql = "SELECT COUNT(p.ID) as orders, SUM(pm1.meta_value) as order_values FROM wp_posts p
-                JOIN wp_postmeta pm ON pm.post_id = p.ID AND pm.meta_key = '_customer_user' AND pm.meta_value = {$the_customer->user_id}
-                JOIN wp_postmeta pm1 ON pm1.post_id = p.ID AND pm1.meta_key = '_order_total' AND pm.meta_value = {$the_customer->user_id}
-                where p.post_type = 'shop_order'";
+
+        $sql = "SELECT COUNT(p.ID) as orders, SUM(pm1.meta_value) as order_values FROM {$wpdb->posts} p
+                JOIN {$wpdb->postmeta} pm ON pm.post_id = p.ID AND pm.meta_key = '_customer_user' AND pm.meta_value = {$item['user_id']}
+                JOIN {$wpdb->postmeta} pm1 ON pm1.post_id = p.ID AND pm1.meta_key = '_order_total' AND pm.meta_value = {$item['user_id']}";
+
+        if($item["user_id"] == "0" && !empty($item["email"])){
+            $sql .= " JOIN {$wpdb->postmeta} pm2 ON pm2.post_id = p.ID AND pm2.meta_key = '_billing_email' AND pm2.meta_value = '{$item['email']}'";
+        }
+
+        $sql .= " WHERE p.post_type = 'shop_order'";
 
         if(!empty($order_statuses)){
             $sql .= " AND p.post_status IN ('" . implode("','" ,$order_statuses) . "')";

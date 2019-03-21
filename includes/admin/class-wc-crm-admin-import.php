@@ -15,7 +15,7 @@ class WC_CRM_Admin_Import{
   public static function add_crm_import_page()
   {
         add_submenu_page(
-            'not_exist', // setting up a non existing parent page to show the page title
+            'not_exist', // setting up a not existing parent page to show the page title
             __( "Customer Import", 'wc_crm' ),
             __( "Customer Import", 'wc_crm'),
             'manage_woocommerce',

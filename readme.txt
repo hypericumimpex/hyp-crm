@@ -3,10 +3,10 @@
 Author: actualityextensions
 Tags: woocommerce, customers, customer, relationship, manager, crm, email, phone, call, tasks, events, groups, accounts, acf, integration, subscriptions
 Requires at least: 5.0
-Tested up to: 5.0.2
+Tested up to: 5.0.3
 Stable tag: 3.5.16
 Requires WooCommerce at least: 3.5
-Tested WooCommerce up to: 3.5.3
+Tested WooCommerce up to: 3.5.4
 
 Easily manage your customers and leads who purchase through your WooCommerce store.
 
@@ -60,6 +60,16 @@ Should you find a bug, please do not hesitate to contact us through our support 
 2. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Changelog ==
+= 3.5.21 - 2019.02.08 =
+* Fix - when mailchimp function enabled, customers page was not loading.
+* Fix - products purchased not showing total tally products purchased.
+
+= 3.5.20 - 2019.02.07 =
+* Fix - header update corrected.
+
+= 3.5.19 - 2019.02.06 =
+* Fix - customer list was not populating correctly for some users.
+
 = 3.5.18 - 2019.01.26 =
 * Fix - customer table was not populating latest changes after user role changes.
 

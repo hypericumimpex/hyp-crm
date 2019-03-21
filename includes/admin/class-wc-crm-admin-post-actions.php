@@ -37,6 +37,7 @@ if (!class_exists('WC_CRM_Admin_Post_Actions')) :
             add_action('post_updated', array($this, 'reload_customers_before_update_post'), 888, 2);
             add_action('save_post', array($this, 'update_shop_order'), 888, 2);
             add_action('profile_update', array($this, 'profile_update'), 888, 1);
+            add_action('set_user_role', array($this, 'set_customer_user_role'), 99, 3);
             add_action('user_register', array($this, 'user_register'), 888, 1);
             add_action('delete_user', array($this, 'delete_customer'), 888, 1);
             add_action('before_delete_post', array($this, 'delete_guest'), 888, 1);
@@ -106,6 +107,12 @@ if (!class_exists('WC_CRM_Admin_Post_Actions')) :
                 $customer_ids = explode(',', $_REQUEST['deleted']);
                 wc_crm_add_notice(sprintf(_n('%s customer permanently deleted.', '%s customers permanently deleted.', count($customer_ids), 'wc_crm'), count($customer_ids)));
             }
+        }
+
+        public function set_customer_user_role($id, $role, $old_role)
+        {
+            wc_crm_reload_customer($id);
+            wc_crm_clear_transient();
         }
 
         public function activity_actions()

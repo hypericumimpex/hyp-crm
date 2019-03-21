@@ -169,9 +169,8 @@ class WC_CRM
      */
     public function includes()
     {
-        // Include MailChimp API class
-        if (!class_exists('MCAPI_Wc_Crm')) {
-            require_once('api/MCAPI.class.php');
+        if (!class_exists('MailChimpAPI')) {
+            require_once('api/MailChimpAPI.php');
         }
         include_once('class-wc-crm-autoloader.php');
         include_once('core-functions.php');

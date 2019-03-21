@@ -3,10 +3,10 @@
  * Plugin Name: HYP CRM
  * Plugin URI: https://github.com/hypericumimpex/hyp-crm/
  * Description: Permite o gestionare generală a clienților și a conturilor aferente, precum și gestionarea comunicării dintre magazin și aceștia.
- * Version: 3.5.18
+ * Version: 3.5.21
  * Author: Hypericum
  * Author URI: https://github.com/hypericumimpex/
- * Tested up to: 5.0.2
+ * Tested up to: 5.1.1
  *
  * Text Domain: wc_crm
  * Domain Path: /lang/
@@ -23,7 +23,7 @@
  * @license     http://www.gnu.org/licenses/gpl-3.0.html GNU General Public License v3.0
  * 
  * WC requires at least: 3.5
- * WC tested up to: 3.5.3
+ * WC tested up to: 3.5.4
  */
 
 if ( !defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
